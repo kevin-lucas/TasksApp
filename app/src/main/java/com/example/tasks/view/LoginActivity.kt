@@ -59,9 +59,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         mViewModel.login.observe(this, Observer {
             if (it.success()) {
                 startActivity(Intent(this, MainActivity::class.java))
-
-
-
             } else {
                 val message = it.failure()
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
