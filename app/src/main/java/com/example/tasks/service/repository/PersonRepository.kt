@@ -1,9 +1,11 @@
 package com.example.tasks.service.repository
 
 import com.example.tasks.service.HeaderModel
+import com.example.tasks.service.constants.TaskConstants
 import com.example.tasks.service.listener.APIListener
 import com.example.tasks.service.repository.remote.PersonService
 import com.example.tasks.service.repository.remote.RetrofitClient
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,7 +20,14 @@ class PersonRepository {
         // Assíncrona
         call.enqueue(object : Callback<HeaderModel> {
             override fun onResponse(call: Call<HeaderModel>, response: Response<HeaderModel>) {
-                response.body()?.let { listener.onSucess(it) }
+
+                if (response.code() != TaskConstants.HTTP.SUCCESS) {
+                    val validation =
+                        Gson().fromJson(response.errorBody()!!.string(), String::class.java)
+                    listener.onFailure(validation)
+                } else {
+                    response.body()?.let { listener.onSucess(it) }
+                }
             }
 
             override fun onFailure(call: Call<HeaderModel>, t: Throwable) {
