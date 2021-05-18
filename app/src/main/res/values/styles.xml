@@ -33,4 +33,10 @@
         <item name="android:backgroundTint">@color/white</item>
     </style>
 
+    <style name="ViewDivider">
+       <item name="android:background">#ececec</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_height">2dp</item>
+    </style>
+
 </resources>
