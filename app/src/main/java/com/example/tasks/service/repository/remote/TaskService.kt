@@ -28,7 +28,6 @@ interface TaskService {
     ): Call<Boolean>
 
     @HTTP(method = "PUT", path = "Task", hasBody = true)
-    @PUT("Task")
     @FormUrlEncoded
     fun update(
         @Field("Id") id: Int,
