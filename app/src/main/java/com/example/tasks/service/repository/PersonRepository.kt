@@ -12,11 +12,18 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PersonRepository(val context: Context) {
+class PersonRepository(val context: Context) : BaseRepository(context) {
 
     private val mRemote = RetrofitClient.createSerive(PersonService::class.java)
 
     fun login(email: String, password: String, listener: APIListener<HeaderModel>) {
+
+        // Verificação de internet
+        if (!isConnectionAvailable(mContext)) {
+            listener.onFailure(mContext.getString(R.string.ERROR_INTERNET_CONNECTION))
+            return
+        }
+
         val call: Call<HeaderModel> = mRemote.login(email, password)
 
         // Assíncrona
