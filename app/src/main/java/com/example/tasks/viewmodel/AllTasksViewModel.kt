@@ -29,6 +29,18 @@ class AllTasksViewModel(application: Application) : AndroidViewModel(application
         })
     }
 
+    fun delete(id: Int) {
+        mTaskRepository.delete(id, object : APIListener<Boolean> {
+            override fun onSucess(model: Boolean) {
+                list()
+            }
+
+            override fun onFailure(str: String) {
+            }
+
+        })
+    }
+
     fun complete(id: Int) {
         updateStatus(id, true)
     }
@@ -37,7 +49,7 @@ class AllTasksViewModel(application: Application) : AndroidViewModel(application
         updateStatus(id, false)
     }
 
-    private fun updateStatus(id: Int, complete: Boolean){
+    private fun updateStatus(id: Int, complete: Boolean) {
         mTaskRepository.updateStatus(id, complete, object : APIListener<Boolean> {
             override fun onSucess(model: Boolean) {
                 list()
