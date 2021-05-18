@@ -62,15 +62,8 @@ class AllTasksFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         mAdapter.attachListener(mListener)
-        mViewModel.list()
     }
 
-    private fun observe() {
-        mViewModel.tasks.observe(viewLifecycleOwner, Observer {
-            if (it.count() > 0) {
-                mAdapter.updateListener(it)
-            }
-        })
-    }
+    private fun observe() {}
 
 }
