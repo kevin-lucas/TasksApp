@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.tasks.R
+import com.example.tasks.service.repository.datasource.PersonApiDataSource
+import com.example.tasks.viewmodel.LoginViewModel
 import com.example.tasks.viewmodel.RegisterViewModel
 import kotlinx.android.synthetic.main.activity_register.*
 
@@ -19,7 +21,9 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        mViewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
+        mViewModel = LoginViewModel.ViewModelFactory2(PersonApiDataSource(this), application).create(
+            RegisterViewModel::class.java
+        )
 
         // Inicializa eventos
         listeners()

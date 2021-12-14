@@ -1,9 +1,8 @@
 package com.example.tasks.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.content.Context
+import androidx.lifecycle.*
 import com.example.tasks.service.model.HeaderModel
 import com.example.tasks.service.constants.TaskConstants
 import com.example.tasks.service.listener.APIListener
@@ -13,9 +12,8 @@ import com.example.tasks.service.repository.PriorityRepository
 import com.example.tasks.service.repository.local.SecurityPreferences
 import com.example.tasks.service.repository.remote.RetrofitClient
 
-class LoginViewModel(application: Application) : AndroidViewModel(application) {
+class LoginViewModel(private val mPersonRepository: PersonRepository, application: Application) : AndroidViewModel(application) {
 
-    private val mPersonRepository = PersonRepository(application)
     private val mPriorityRepository = PriorityRepository(application)
     private val mSharedPreferences = SecurityPreferences(application)
 
@@ -67,6 +65,24 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
         mLoggedUser.value = logged
 
+    }
+
+    class ViewModelFactory(private val dataSource: PersonRepository, private val application: Application) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
+                return LoginViewModel(dataSource, application) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
+    }
+
+    class ViewModelFactory2(private val dataSource: PersonRepository, private val application: Application) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(RegisterViewModel::class.java)) {
+                return RegisterViewModel(dataSource, application) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
     }
 
 }
