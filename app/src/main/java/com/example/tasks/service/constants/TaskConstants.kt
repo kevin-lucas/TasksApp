@@ -5,6 +5,10 @@ package com.example.tasks.service.constants
  */
 class TaskConstants private constructor() {
 
+    object TESTE {
+        
+    }
+
     // SharedPreferences
     object SHARED {
         const val TOKEN_KEY = "tokenkey"
